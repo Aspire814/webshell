@@ -10,6 +10,7 @@ import { createMatrixRain } from "./commands/matrix";
 import { createJoke } from "./commands/joke";
 import { cowsay } from "./commands/cowsay";
 import { createSLFrames, trainFrames } from "./commands/sl";
+import { glitch } from './commands/glitch';
 
 //mutWriteLines gets deleted and reassigned
 let mutWriteLines = document.getElementById("write-lines");
@@ -33,7 +34,7 @@ const PRE_USER = document.getElementById("pre-user");
 const HOST = document.getElementById("host");
 const USER = document.getElementById("user");
 const PROMPT = document.getElementById("prompt");
-const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art"];
+const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art", "glitch"];
 const HISTORY : string[] = [];
 const SUDO_PASSWORD = command.password;
 const REPO_LINK = command.repoLink;
@@ -176,6 +177,16 @@ function arrowKeys(e : string) {
 }
 
 function commandHandler(input : string) {
+  if (input.startsWith('glitch')) {
+    if (bareMode) {
+      writeLines(["<span class='warning'>No glitch effects in the dark.</span>", "<br>"])
+      return;
+    }
+    const text = input.length > 6 ? input.slice(6).trim() : 'Hello World!';
+    writeLines(glitch(text));
+    return;
+  }
+
   if(input.startsWith("rm -rf") && input.trim() !== "rm -rf") {
     if (isSudo) {
       if(input === "rm -rf src" && !bareMode) {
@@ -397,20 +408,19 @@ function commandHandler(input : string) {
         train.innerHTML = trainFrames[step % trainFrames.length];
         
         step++;
-        if (step > 60) { // 增加总步数
+        if (step >= 60) {
           stopSL();
-          writeLines(["<span class='bounce'>SL animation finished!</span>", "<br>"]);
-          // 移除容器
-          container.remove();
+          if (container && container.parentNode) {
+            container.parentNode.removeChild(container);
+          }
         }
-      }, 200); // 增加间隔时间到200ms
-      return;
+      }, 200);
+      break;
     default:
       if(bareMode) {
-        writeLines(["<span class='warning'>type 'help'</span>", "<br>"])
+        writeLines(["<span class='warning'>Command not found.</span>", "<br>"])
         break;
       }
-
       writeLines(DEFAULT);
       break;
   }  

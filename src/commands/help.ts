@@ -43,12 +43,16 @@ const helpObj = {
       "Display some ASCII art."
     ],
     [
-      "'cowsay'",
+      "'cowsay [text]'",
       "A talking cow!"
     ],
     [
       "'sl'",
       "Steam Locomotive!"
+    ],
+    [
+      "'glitch [text]'",
+      "Apply glitch effect to text"
     ]
   ],
 }
