@@ -538,6 +538,12 @@ function easterEggStyles() {
 
 }
 
+function initTheme() {
+  const savedTheme = getCurrentTheme();
+  applyTheme(savedTheme);
+}
+
+// 初始化事件监听器
 const initEventListeners = () => {
   if(HOST) {
     HOST.innerText= command.hostname;
@@ -564,6 +570,21 @@ const initEventListeners = () => {
   });
 
   console.log(`%cPassword: ${command.password}`, "color: red; font-size: 20px;");
+
+  // 监听主题变更事件
+  window.addEventListener('themeChanged', ((e: Event) => {
+    const event = e as CustomEvent;
+    const { theme } = event.detail;
+    if (theme) {
+      applyTheme(theme);
+    }
+  }) as EventListener);
+
+  // 监听页面加载事件
+  window.addEventListener('load', () => {
+    initTheme();
+    writeLines(BANNER);
+  });
 }
 
 function clearTerminal() {
@@ -573,23 +594,5 @@ function clearTerminal() {
   TERMINAL.appendChild(WRITELINESCOPY);
   mutWriteLines = WRITELINESCOPY;
 }
-
-// 初始化主题
-function initTheme() {
-  const savedTheme = getCurrentTheme();
-  applyTheme(savedTheme);
-}
-
-// 在页面加载时初始化主题和显示 banner
-window.addEventListener('load', () => {
-  initTheme();
-  writeLines(BANNER);
-});
-
-// 监听主题变化事件
-window.addEventListener('themeChanged', ((event: CustomEvent) => {
-  const themeName = event.detail.theme;
-  applyTheme(themeName);
-}) as EventListener);
 
 initEventListeners();

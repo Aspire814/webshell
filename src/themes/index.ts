@@ -57,48 +57,61 @@ export const themes: Record<string, Theme> = {
   }
 };
 
+let isApplyingTheme = false;
+
 export function applyTheme(themeName: string) {
-  const theme = themes[themeName] || themes['matrix'];
-  const root = document.documentElement;
-  
-  // 更新所有 CSS 变量
-  Object.entries(theme.colors).forEach(([key, value]) => {
-    root.style.setProperty(`--${key}-color`, value);
-  });
-  
-  // 更新其他相关样式
-  const style = document.createElement('style');
-  style.textContent = `
-    body { background: var(--background-color); color: var(--text-color); }
-    input { background: var(--background-color); color: var(--text-color); }
-    .output { color: var(--text-color); }
-    #pre-host, #host, #pre-user, #user, #prompt { color: var(--primary-color); }
-    pre { color: var(--accent-color); }
-    a { color: var(--primary-color); }
-    a:hover { background: var(--background-color); color: var(--hover-color); }
-    .command { color: var(--primary-color); }
-    .keys { color: var(--accent-color); }
-    #bars { background: var(--background-color); }
-    main { border-color: var(--border-color); }
-    #bar-1 { background: var(--border-color); color: var(--background-color); }
-    #bar-2, #bar-3, #bar-4, #bar-5 { background: var(--border-color); }
-  `;
-  
-  // 移除旧的样式
-  const oldStyle = document.getElementById('theme-style');
-  if (oldStyle) {
-    oldStyle.remove();
+  if (isApplyingTheme) return;
+  isApplyingTheme = true;
+
+  try {
+    const theme = themes[themeName] || themes['matrix'];
+    const root = document.documentElement;
+    
+    // 更新所有 CSS 变量
+    Object.entries(theme.colors).forEach(([key, value]) => {
+      root.style.setProperty(`--${key}-color`, value);
+    });
+    
+    // 移除旧的样式
+    const oldStyle = document.getElementById('theme-style');
+    if (oldStyle) {
+      oldStyle.remove();
+    }
+    
+    // 创建新的样式元素
+    const style = document.createElement('style');
+    style.id = 'theme-style';
+    style.textContent = `
+      body { background: var(--background-color); color: var(--text-color); }
+      input { background: var(--background-color); color: var(--text-color); }
+      .output { color: var(--text-color); }
+      #pre-host, #host, #pre-user, #user, #prompt { color: var(--primary-color); }
+      pre { color: var(--accent-color); }
+      a { color: var(--primary-color); }
+      a:hover { color: var(--hover-color); }
+      .command { color: var(--primary-color); }
+      .keys { color: var(--accent-color); }
+      #bars { background: var(--background-color); }
+      main { border-color: var(--border-color); }
+      #bar-1 { background: var(--border-color); color: var(--background-color); }
+      #bar-2, #bar-3, #bar-4, #bar-5 { background: var(--border-color); }
+    `;
+    
+    // 添加新的样式
+    document.head.appendChild(style);
+    
+    // 保存主题设置到 localStorage
+    localStorage.setItem('theme', themeName);
+    
+    // 触发自定义事件，通知主题已更改
+    const event = new CustomEvent('themeChanged', { 
+      detail: { theme: themeName },
+      bubbles: true
+    });
+    window.dispatchEvent(event);
+  } finally {
+    isApplyingTheme = false;
   }
-  
-  // 添加新的样式
-  style.id = 'theme-style';
-  document.head.appendChild(style);
-  
-  // 保存主题设置到 localStorage
-  localStorage.setItem('theme', themeName);
-  
-  // 触发自定义事件，通知主题已更改
-  window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme: themeName } }));
 }
 
 export function getCurrentTheme(): string {
