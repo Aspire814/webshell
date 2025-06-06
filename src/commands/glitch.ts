@@ -1,7 +1,5 @@
 // 故障效果配置
 const GLITCH_CHARS = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`';
-const GLITCH_DURATION = 2000; // 故障效果持续时间（毫秒）
-const GLITCH_INTERVAL = 50; // 故障效果更新间隔（毫秒）
 
 // 生成随机故障字符
 function getRandomGlitchChar(): string {

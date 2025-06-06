@@ -9,12 +9,12 @@ import { createFortune } from "./commands/fortune";
 import { createMatrixRain } from "./commands/matrix";
 import { createJoke } from "./commands/joke";
 import { cowsay } from "./commands/cowsay";
-import { createSLFrames, trainFrames } from "./commands/sl";
+import { trainFrames } from "./commands/sl";
 import { glitch } from './commands/glitch';
 import { npm } from './commands/npm';
 import { info } from './commands/info';
 import { theme } from './commands/theme';
-import { applyTheme, getCurrentTheme, themes, Theme } from './themes';
+import { applyTheme, getCurrentTheme } from './themes';
 
 //mutWriteLines gets deleted and reassigned
 let mutWriteLines = document.getElementById("write-lines");
