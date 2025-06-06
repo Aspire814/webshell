@@ -53,6 +53,10 @@ const helpObj = {
     [
       "'glitch [text]'",
       "Apply glitch effect to text"
+    ],
+    [
+      "'npm'",
+      "Simulate npm package installation"
     ]
   ],
 }

@@ -11,6 +11,7 @@ import { createJoke } from "./commands/joke";
 import { cowsay } from "./commands/cowsay";
 import { createSLFrames, trainFrames } from "./commands/sl";
 import { glitch } from './commands/glitch';
+import { npm } from './commands/npm';
 
 //mutWriteLines gets deleted and reassigned
 let mutWriteLines = document.getElementById("write-lines");
@@ -34,7 +35,7 @@ const PRE_USER = document.getElementById("pre-user");
 const HOST = document.getElementById("host");
 const USER = document.getElementById("user");
 const PROMPT = document.getElementById("prompt");
-const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art", "glitch"];
+const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art", "glitch", "npm"];
 const HISTORY : string[] = [];
 const SUDO_PASSWORD = command.password;
 const REPO_LINK = command.repoLink;
@@ -177,6 +178,15 @@ function arrowKeys(e : string) {
 }
 
 function commandHandler(input : string) {
+  if (input.startsWith('npm ')) {
+    if (bareMode) {
+      writeLines(["<span class='warning'>No npm in the dark.</span>", "<br>"])
+      return;
+    }
+    writeLines(npm(input));
+    return;
+  }
+
   if (input.startsWith('glitch')) {
     if (bareMode) {
       writeLines(["<span class='warning'>No glitch effects in the dark.</span>", "<br>"])
