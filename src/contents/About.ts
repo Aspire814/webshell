@@ -1,5 +1,5 @@
 // 创建简历页面内容
-export function createAboutPage(): string[] {
+export function createAboutInfo(): string[] {
   return [
     '<div class="resume">',
     '  <div class="resume-header">',

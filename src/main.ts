@@ -12,7 +12,7 @@ import { cowsay } from "./commands/cowsay";
 import { createSLFrames, trainFrames } from "./commands/sl";
 import { glitch } from './commands/glitch';
 import { npm } from './commands/npm';
-import { page } from './commands/page';
+import { info } from './commands/info';
 import { theme } from './commands/theme';
 import { applyTheme, getCurrentTheme, themes, Theme } from './themes';
 
@@ -181,13 +181,12 @@ function arrowKeys(e : string) {
 }
 
 function commandHandler(input : string) {
-  if (input.startsWith('page ')) {
+  if (input.startsWith('info')) {
     if (bareMode) {
-      writeLines(["<span class='warning'>No pages in the dark.</span>", "<br>"])
+      writeLines(["<span class='warning'>No info in the dark.</span>", "<br>"])
       return;
     }
-    const pageName = input.slice(5).trim();
-    writeLines(page(pageName));
+    writeLines(info());
     return;
   }
 

@@ -59,8 +59,8 @@ const helpObj = {
       "Simulate npm package installation"
     ],
     [
-      "'page [name]'",
-      "Display a specific page (e.g., page about)"
+      "'info'",
+      "Know more about me!"
     ],
     [
       "'theme [name]'",
