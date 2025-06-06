@@ -12,6 +12,9 @@ import { cowsay } from "./commands/cowsay";
 import { createSLFrames, trainFrames } from "./commands/sl";
 import { glitch } from './commands/glitch';
 import { npm } from './commands/npm';
+import { page } from './commands/page';
+import { theme } from './commands/theme';
+import { applyTheme, getCurrentTheme, themes, Theme } from './themes';
 
 //mutWriteLines gets deleted and reassigned
 let mutWriteLines = document.getElementById("write-lines");
@@ -35,7 +38,7 @@ const PRE_USER = document.getElementById("pre-user");
 const HOST = document.getElementById("host");
 const USER = document.getElementById("user");
 const PROMPT = document.getElementById("prompt");
-const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art", "glitch", "npm"];
+const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art", "glitch", "npm", "page", "theme"];
 const HISTORY : string[] = [];
 const SUDO_PASSWORD = command.password;
 const REPO_LINK = command.repoLink;
@@ -178,6 +181,16 @@ function arrowKeys(e : string) {
 }
 
 function commandHandler(input : string) {
+  if (input.startsWith('page ')) {
+    if (bareMode) {
+      writeLines(["<span class='warning'>No pages in the dark.</span>", "<br>"])
+      return;
+    }
+    const pageName = input.slice(5).trim();
+    writeLines(page(pageName));
+    return;
+  }
+
   if (input.startsWith('npm ')) {
     if (bareMode) {
       writeLines(["<span class='warning'>No npm in the dark.</span>", "<br>"])
@@ -241,6 +254,17 @@ function commandHandler(input : string) {
     }
     const msg = input.length > 7 ? input.slice(7).trim() : 'Moo!';
     writeLines(cowsay(msg));
+    return;
+  }
+
+  // 处理 theme 命令
+  if (input.startsWith('theme')) {
+    if (bareMode) {
+      writeLines(["<span class='warning'>No themes in the dark.</span>", "<br>"])
+      return;
+    }
+    const themeName = input.slice(5).trim();
+    writeLines(theme(themeName));
     return;
   }
 
@@ -531,10 +555,6 @@ const initEventListeners = () => {
   if(PRE_USER) {
     PRE_USER.innerText = command.username;
   } 
-
-    window.addEventListener('load', () => {
-    writeLines(BANNER);
-  });
   
   USERINPUT.addEventListener('keypress', userInputHandler);
   USERINPUT.addEventListener('keydown', userInputHandler);
@@ -554,5 +574,23 @@ function clearTerminal() {
   TERMINAL.appendChild(WRITELINESCOPY);
   mutWriteLines = WRITELINESCOPY;
 }
+
+// 初始化主题
+function initTheme() {
+  const savedTheme = getCurrentTheme();
+  applyTheme(savedTheme);
+}
+
+// 在页面加载时初始化主题和显示 banner
+window.addEventListener('load', () => {
+  initTheme();
+  writeLines(BANNER);
+});
+
+// 监听主题变化事件
+window.addEventListener('themeChanged', ((event: CustomEvent) => {
+  const themeName = event.detail.theme;
+  applyTheme(themeName);
+}) as EventListener);
 
 initEventListeners();

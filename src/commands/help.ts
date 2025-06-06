@@ -57,6 +57,14 @@ const helpObj = {
     [
       "'npm'",
       "Simulate npm package installation"
+    ],
+    [
+      "'page [name]'",
+      "Display a specific page (e.g., page about)"
+    ],
+    [
+      "'theme [name]'",
+      "Change terminal theme (e.g., theme matrix)"
     ]
   ],
 }

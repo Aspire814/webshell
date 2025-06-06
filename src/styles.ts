@@ -3,25 +3,34 @@ import command from '../config.json' assert {type: 'json'};
 (() => {
   const style = document.createElement('style')
   const head = document.head
-  const background = `body {background: ${command.colors.background}}`
-  const foreground = `body {color: ${command.colors.foreground}}`
-  const inputBackground = `input {background: ${command.colors.background}}`
-  const inputForeground = `input {color: ${command.colors.prompt.input}}`
-  const outputColor = `.output {color: ${command.colors.prompt.input}}`
-  const preHost = `#pre-host {color: ${command.colors.prompt.host}}`
-  const host = `#host {color: ${command.colors.prompt.host}}`
-  const preUser = `#pre-user {color: ${command.colors.prompt.user}}`
-  const user = `#user {color: ${command.colors.prompt.user}}`
-  const prompt = `#prompt {color: ${command.colors.prompt.default}}`
-  const banner = `pre {color: ${command.colors.banner}}`
-  const link = `a {color: ${command.colors.link.text}}`
-  const linkHighlight = `a:hover {background: ${command.colors.link.highlightColor}}`
-  const linkTextHighlight = `a:hover {color: ${command.colors.link.highlightText}}`
-  const commandHighlight = `.command {color: ${command.colors.commands.textColor}}`
-  const keys = `.keys {color: ${command.colors.banner}}`
+  
+  // 使用 CSS 变量
+  const root = document.documentElement;
+  root.style.setProperty('--primary-color', command.colors.prompt.default);
+  root.style.setProperty('--background-color', command.colors.background);
+  root.style.setProperty('--text-color', command.colors.foreground);
+  root.style.setProperty('--accent-color', command.colors.banner);
+  root.style.setProperty('--border-color', command.colors.border.color);
+  root.style.setProperty('--hover-color', command.colors.link.highlightText);
+
+  const background = `body {background: var(--background-color)}`
+  const foreground = `body {color: var(--text-color)}`
+  const inputBackground = `input {background: var(--background-color)}`
+  const inputForeground = `input {color: var(--text-color)}`
+  const outputColor = `.output {color: var(--text-color)}`
+  const preHost = `#pre-host {color: var(--primary-color)}`
+  const host = `#host {color: var(--primary-color)}`
+  const preUser = `#pre-user {color: var(--primary-color)}`
+  const user = `#user {color: var(--primary-color)}`
+  const prompt = `#prompt {color: var(--primary-color)}`
+  const banner = `pre {color: var(--accent-color)}`
+  const link = `a {color: var(--primary-color)}`
+  const linkHighlight = `a:hover {background: var(--background-color)}`
+  const linkTextHighlight = `a:hover {color: var(--hover-color)}`
+  const commandHighlight = `.command {color: var(--primary-color)}`
+  const keys = `.keys {color: var(--accent-color)}`
 
   head.appendChild(style)
-
 
   if (!style.sheet) return
 
@@ -29,13 +38,13 @@ import command from '../config.json' assert {type: 'json'};
     style.sheet.insertRule("#bars {display: none}")    
     style.sheet.insertRule("main {border: none}")
   } else {
-    style.sheet.insertRule(`#bars {background: ${command.colors.background}}`)
-    style.sheet.insertRule(`main {border-color: ${command.colors.border.color}}`)
-    style.sheet.insertRule(`#bar-1 {background: ${command.colors.border.color}; color: ${command.colors.background}}`)
-    style.sheet.insertRule(`#bar-2 {background: ${command.colors.border.color}}`)
-    style.sheet.insertRule(`#bar-3 {background: ${command.colors.border.color}}`)
-    style.sheet.insertRule(`#bar-4 {background: ${command.colors.border.color}}`)
-    style.sheet.insertRule(`#bar-5 {background: ${command.colors.border.color}}`)
+    style.sheet.insertRule(`#bars {background: var(--background-color)}`)
+    style.sheet.insertRule(`main {border-color: var(--border-color)}`)
+    style.sheet.insertRule(`#bar-1 {background: var(--border-color); color: var(--background-color)}`)
+    style.sheet.insertRule(`#bar-2 {background: var(--border-color)}`)
+    style.sheet.insertRule(`#bar-3 {background: var(--border-color)}`)
+    style.sheet.insertRule(`#bar-4 {background: var(--border-color)}`)
+    style.sheet.insertRule(`#bar-5 {background: var(--border-color)}`)
   }
 
   style.sheet.insertRule(background)
