@@ -158,24 +158,24 @@ function commandHandler(input : string) {
 
         easterEggStyles();
         setTimeout(() => {
-          writeLines(["What made you think that was a good idea?", "<br>"]);
+          writeLines(["<span class='warning'>What made you think that was a good idea?</span>", "<br>"]);
         }, 200)
 
         setTimeout(() => {
-          writeLines(["Now everything is ruined.", "<br>"]);
+          writeLines(["<span class='warning'>Now everything is ruined.</span>", "<br>"]);
         }, 1200)
 
         } else if (input === "rm -rf src" && bareMode) {
-          writeLines(["there's no more src folder.", "<br>"])
+          writeLines(["<span class='warning'>there's no more src folder.</span>", "<br>"])
         } else {
           if(bareMode) {
-            writeLines(["What else are you trying to delete?", "<br>"])
+            writeLines(["<span class='warning'>What else are you trying to delete?</span>", "<br>"])
           } else {
-            writeLines(["<br>", "Directory not found.", "type <span class='command'>'ls'</span> for a list of directories.", "<br>"]);
+            writeLines(["<br>", "<span class='warning'>Directory not found.</span>", "type <span class='command'>'ls'</span> for a list of directories.", "<br>"]);
           }
         } 
       } else {
-        writeLines(["Permission not granted.", "<br>"]);
+        writeLines(["<span class='warning'>Permission not granted.</span>", "<br>"]);
     }
     return
   }
@@ -191,41 +191,41 @@ function commandHandler(input : string) {
       break;
     case 'banner':
       if(bareMode) {
-        writeLines(["WebShell v1.0.0", "<br>"])
+        writeLines(["<span class='bounce'>WebShell v1.0.0</span>", "<br>"])
         break;
       }
       writeLines(BANNER);
       break;
     case 'help':
       if(bareMode) {
-        writeLines(["maybe restarting your browser will fix this.", "<br>"])
+        writeLines(["<span class='bounce'>maybe restarting your browser will fix this.</span>", "<br>"])
         break;
       }
       writeLines(HELP);
       break;
     case 'whoami':      
       if(bareMode) {
-        writeLines([`${command.username}`, "<br>"])
+        writeLines([`<span class='bounce'>${command.username}</span>`, "<br>"])
         break;
       }
       writeLines(createWhoami());
       break;
     case 'about':
       if(bareMode) {
-        writeLines(["Nothing to see here.", "<br>"])
+        writeLines(["<span class='bounce'>Nothing to see here.</span>", "<br>"])
         break;
       }
       writeLines(ABOUT);
       break;
     case 'projects':
       if(bareMode) {
-        writeLines(["I don't want you to break the other projects.", "<br>"])
+        writeLines(["<span class='bounce'>I don't want you to break the other projects.</span>", "<br>"])
         break;
       }
       writeLines(PROJECTS);
       break;
     case 'repo':
-      writeLines(["Redirecting to github.com...", "<br>"]);
+      writeLines(["<span class='bounce'>Redirecting to github.com...</span>", "<br>"]);
       setTimeout(() => {
         window.open(REPO_LINK, '_blank');
       }, 500);
@@ -253,7 +253,7 @@ function commandHandler(input : string) {
         break;
     case 'sudo':
       if(bareMode) {
-        writeLines(["no.", "<br>"])
+        writeLines(["<span class='warning'>no.</span>", "<br>"])
         break;
       }
       if(!PASSWORD) return
@@ -274,14 +274,14 @@ function commandHandler(input : string) {
       }
 
       if (isSudo) {
-        writeLines(["src", "<br>"]);
+        writeLines(["<span class='bounce'>src</span>", "<br>"]);
       } else {
-        writeLines(["Permission not granted.", "<br>"]);
+        writeLines(["<span class='warning'>Permission not granted.</span>", "<br>"]);
       }
       break;
     default:
       if(bareMode) {
-        writeLines(["type 'help'", "<br>"])
+        writeLines(["<span class='warning'>type 'help'</span>", "<br>"])
         break;
       }
 
@@ -322,7 +322,7 @@ function revertPasswordChanges() {
 function passwordHandler() {
   if (passwordCounter === 2) {
     if (!INPUT_HIDDEN || !mutWriteLines || !PASSWORD) return
-    writeLines(["<br>", "INCORRECT PASSWORD.", "PERMISSION NOT GRANTED.", "<br>"])
+    writeLines(["<br>", "<span class='warning'>INCORRECT PASSWORD.</span>", "<span class='warning'>PERMISSION NOT GRANTED.</span>", "<br>"])
     revertPasswordChanges();
     passwordCounter = 0;
     return
@@ -330,7 +330,7 @@ function passwordHandler() {
 
   if (PASSWORD_INPUT.value === SUDO_PASSWORD) {
     if (!mutWriteLines || !mutWriteLines.parentNode) return
-    writeLines(["<br>", "PERMISSION GRANTED.", "Try <span class='command'>'rm -rf'</span>", "<br>"])
+    writeLines(["<br>", "<span class='bounce'>PERMISSION GRANTED.</span>", "Try <span class='command'>'rm -rf'</span>", "<br>"])
     revertPasswordChanges();
     isSudo = true;
     return
