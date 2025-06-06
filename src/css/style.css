@@ -260,6 +260,48 @@ a:hover {
   animation: rainbow 3s linear infinite;
 }
 
+.cowsay {
+  color: #FFD700;
+  font-family: 'ascii', 'VT323', monospace;
+  font-size: 16px;
+  line-height: 1.1;
+  text-shadow: 0 0 2px #fff200;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  display: block;
+}
+
+#sl-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.sl {
+  color: #00BFFF;
+  font-family: 'ascii', 'VT323', monospace;
+  font-size: 15px;
+  line-height: 1.1;
+  text-shadow: 0 0 2px #00BFFF;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: transform 0.2s linear;
+}
+
+.sl pre {
+  margin: 0;
+  padding: 0;
+}
+
 @media (max-width: 600px) {
   body {
     font-size: 10px;

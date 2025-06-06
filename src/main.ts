@@ -8,6 +8,8 @@ import { createWhoami } from "./commands/whoami";
 import { createFortune } from "./commands/fortune";
 import { createMatrixRain } from "./commands/matrix";
 import { createJoke } from "./commands/joke";
+import { cowsay } from "./commands/cowsay";
+import { createSLFrames, trainFrames } from "./commands/sl";
 
 //mutWriteLines gets deleted and reassigned
 let mutWriteLines = document.getElementById("write-lines");
@@ -37,6 +39,7 @@ const SUDO_PASSWORD = command.password;
 const REPO_LINK = command.repoLink;
 
 let matrixInterval: number | null = null;
+let slInterval: number | null = null;
 
 function stopMatrixEffect() {
   if (matrixInterval) {
@@ -53,6 +56,13 @@ function startMatrixEffect() {
     const matrix = createMatrixRain();
     writeLines(matrix);
   }, 100);
+}
+
+function stopSL() {
+  if (slInterval) {
+    clearInterval(slInterval);
+    slInterval = null;
+  }
 }
 
 const scrollToBottom = () => {
@@ -202,6 +212,17 @@ function commandHandler(input : string) {
     return
   }
 
+  // cowsay: support both 'cowsay' and 'cowsay something'
+  if (input.startsWith('cowsay')) {
+    if (bareMode) {
+      writeLines(["<span class='warning'>The cow has left the building.</span>", "<br>"])
+      return;
+    }
+    const msg = input.length > 7 ? input.slice(7).trim() : 'Moo!';
+    writeLines(cowsay(msg));
+    return;
+  }
+
   switch(input) {
     case 'clear':
       setTimeout(() => {
@@ -339,6 +360,51 @@ function commandHandler(input : string) {
         "<br>"
       ]);
       break;
+    case 'sl':
+      if (bareMode) {
+        writeLines(["<span class='warning'>No trains in the dark.</span>", "<br>"])
+        return;
+      }
+      let step = 0;
+      stopSL();
+      
+      // 创建一个容器来放置火车
+      const container = document.createElement('div');
+      container.id = 'sl-container';
+      if (mutWriteLines && mutWriteLines.parentNode) {
+        mutWriteLines.parentNode.insertBefore(container, mutWriteLines);
+      }
+
+      // 创建火车元素
+      const train = document.createElement('pre');
+      train.className = 'sl';
+      train.innerHTML = trainFrames[0];
+      container.appendChild(train);
+
+      slInterval = setInterval(() => {
+        if (!container || !train) return;
+        
+        // 更新火车位置
+        const progress = step / 60; // 增加总步数
+        const screenWidth = window.innerWidth;
+        const trainWidth = 80; // 估计的火车宽度
+        const maxOffset = Math.max(0, screenWidth - trainWidth);
+        const offset = Math.floor(progress * maxOffset);
+        
+        train.style.transform = `translateX(${offset}px)`;
+        
+        // 更新火车动画帧
+        train.innerHTML = trainFrames[step % trainFrames.length];
+        
+        step++;
+        if (step > 60) { // 增加总步数
+          stopSL();
+          writeLines(["<span class='bounce'>SL animation finished!</span>", "<br>"]);
+          // 移除容器
+          container.remove();
+        }
+      }, 200); // 增加间隔时间到200ms
+      return;
     default:
       if(bareMode) {
         writeLines(["<span class='warning'>type 'help'</span>", "<br>"])

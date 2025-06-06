@@ -41,6 +41,14 @@ const helpObj = {
     [
       "'ascii-art'",
       "Display some ASCII art."
+    ],
+    [
+      "'cowsay'",
+      "A talking cow!"
+    ],
+    [
+      "'sl'",
+      "Steam Locomotive!"
     ]
   ],
 }
