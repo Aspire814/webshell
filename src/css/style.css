@@ -54,6 +54,32 @@
   }
 }
 
+@keyframes matrixRain {
+  0% {
+    opacity: 1;
+    text-shadow: 0 0 5px #00ff00;
+  }
+  50% {
+    opacity: 0.5;
+    text-shadow: 0 0 10px #00ff00;
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 0 0 5px #00ff00;
+  }
+}
+
+@keyframes rainbow {
+  0% { color: #ff0000; }
+  14% { color: #ff7f00; }
+  28% { color: #ffff00; }
+  42% { color: #00ff00; }
+  57% { color: #0000ff; }
+  71% { color: #4b0082; }
+  85% { color: #8b00ff; }
+  100% { color: #ff0000; }
+}
+
 html,
 body {
   color: var(--text);
@@ -123,7 +149,7 @@ input {
   font-size: 16px;
   color: #FF7685;
   caret-color: var(--prompt-default);
-  width: 50%;
+  width: calc(100% - 200px);
 }
 
 a {
@@ -180,12 +206,13 @@ a:hover {
 
 #terminal {
   margin-left: 20px;
+  width: calc(100% - 40px);
 }
 
 #input-line {
   margin-left: 20px;
   overflow-x: hidden;
-  width: 100%;
+  width: calc(100% - 40px);
 }
 
 .command {
@@ -210,6 +237,27 @@ a:hover {
 
 .bounce {
   animation: bounce 1s ease;
+}
+
+.matrix {
+  color: #00ff00;
+  font-family: 'VT323', monospace;
+  animation: matrixRain 0.5s linear infinite;
+  text-shadow: 0 0 5px #00ff00;
+  display: block;
+  white-space: pre;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  font-size: 18px;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.rainbow {
+  animation: rainbow 3s linear infinite;
 }
 
 @media (max-width: 600px) {

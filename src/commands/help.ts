@@ -25,6 +25,22 @@ const helpObj = {
     [
       "'clear'",
       "Clear the terminal."
+    ],
+    [
+      "'fortune'",
+      "Get your daily fortune."
+    ],
+    [
+      "'matrix'",
+      "Enter the Matrix..."
+    ],
+    [
+      "'joke'",
+      "Get a programming joke."
+    ],
+    [
+      "'ascii-art'",
+      "Display some ASCII art."
     ]
   ],
 }

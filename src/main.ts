@@ -5,6 +5,9 @@ import { ABOUT } from "./commands/about"
 import { DEFAULT } from "./commands/default";
 import { PROJECTS } from "./commands/projects";
 import { createWhoami } from "./commands/whoami";
+import { createFortune } from "./commands/fortune";
+import { createMatrixRain } from "./commands/matrix";
+import { createJoke } from "./commands/joke";
 
 //mutWriteLines gets deleted and reassigned
 let mutWriteLines = document.getElementById("write-lines");
@@ -28,10 +31,29 @@ const PRE_USER = document.getElementById("pre-user");
 const HOST = document.getElementById("host");
 const USER = document.getElementById("user");
 const PROMPT = document.getElementById("prompt");
-const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear"];
+const COMMANDS = ["help", "about", "projects", "whoami", "repo", "banner", "clear", "fortune", "matrix", "weather", "joke", "ascii-art"];
 const HISTORY : string[] = [];
 const SUDO_PASSWORD = command.password;
 const REPO_LINK = command.repoLink;
+
+let matrixInterval: number | null = null;
+
+function stopMatrixEffect() {
+  if (matrixInterval) {
+    clearInterval(matrixInterval);
+    matrixInterval = null;
+  }
+}
+
+function startMatrixEffect() {
+  if (matrixInterval) return;
+  
+  matrixInterval = setInterval(() => {
+    if (!mutWriteLines) return;
+    const matrix = createMatrixRain();
+    writeLines(matrix);
+  }, 100);
+}
 
 const scrollToBottom = () => {
   const MAIN = document.getElementById("main");
@@ -183,10 +205,7 @@ function commandHandler(input : string) {
   switch(input) {
     case 'clear':
       setTimeout(() => {
-        if(!TERMINAL || !WRITELINESCOPY) return
-        TERMINAL.innerHTML = "";
-        TERMINAL.appendChild(WRITELINESCOPY);
-        mutWriteLines = WRITELINESCOPY;
+        clearTerminal();
       })
       break;
     case 'banner':
@@ -278,6 +297,47 @@ function commandHandler(input : string) {
       } else {
         writeLines(["<span class='warning'>Permission not granted.</span>", "<br>"]);
       }
+      break;
+    case 'fortune':
+      if(bareMode) {
+        writeLines(["<span class='warning'>Your fortune is too dark to read.</span>", "<br>"])
+        break;
+      }
+      writeLines(createFortune());
+      break;
+    case 'matrix':
+      if(bareMode) {
+        writeLines(["<span class='warning'>The Matrix has you...</span>", "<br>"])
+        break;
+      }
+      startMatrixEffect();
+      // Stop the effect after 5 seconds
+      setTimeout(() => {
+        stopMatrixEffect();
+        writeLines(["<br>", "<span class='bounce'>Welcome back to reality.</span>", "<br>"]);
+      }, 5000);
+      break;
+    case 'joke':
+      if(bareMode) {
+        writeLines(["<span class='warning'>No jokes in the dark.</span>", "<br>"])
+        break;
+      }
+      writeLines(createJoke());
+      break;
+    case 'ascii-art':
+      if(bareMode) {
+        writeLines(["<span class='warning'>Art is dead here.</span>", "<br>"])
+        break;
+      }
+      writeLines([
+        "<br>",
+        "<pre class='rainbow'>",
+        "  /\\_/\\",
+        " ( o.o )",
+        "  > ^ <",
+        "</pre>",
+        "<br>"
+      ]);
       break;
     default:
       if(bareMode) {
@@ -399,6 +459,14 @@ const initEventListeners = () => {
   });
 
   console.log(`%cPassword: ${command.password}`, "color: red; font-size: 20px;");
+}
+
+function clearTerminal() {
+  stopMatrixEffect();
+  if(!TERMINAL || !WRITELINESCOPY) return;
+  TERMINAL.innerHTML = "";
+  TERMINAL.appendChild(WRITELINESCOPY);
+  mutWriteLines = WRITELINESCOPY;
 }
 
 initEventListeners();
