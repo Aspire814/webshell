@@ -1,73 +1,24 @@
 const helpObj = {
-  "commands": [
-    [
-    "'about'",
-    "Who made this website?",
-    ],
-    [
-      "'projects'",
-      "Maybe there's something interesting."
-    ],
-    [
-      "'whoami'",
-      "A perplexing question."
-    ],
-    ["'sudo'",
-      "???"
-    ],
-    [
-      "'repo'",
-      "View the Github Repository."
-    ],
-    ["'banner'",
-      "Display the banner."
-    ],
-    [
-      "'clear'",
-      "Clear the terminal."
-    ],
-    [
-      "'fortune'",
-      "Get your daily fortune."
-    ],
-    [
-      "'matrix'",
-      "Enter the Matrix..."
-    ],
-    [
-      "'joke'",
-      "Get a programming joke."
-    ],
-    [
-      "'ascii-art'",
-      "Display some ASCII art."
-    ],
-    [
-      "'cowsay [text]'",
-      "A talking cow!"
-    ],
-    [
-      "'sl'",
-      "Steam Locomotive!"
-    ],
-    [
-      "'glitch [text]'",
-      "Apply glitch effect to text"
-    ],
-    [
-      "'npm'",
-      "Simulate npm package installation"
-    ],
-    [
-      "'info'",
-      "Know more about me!"
-    ],
-    [
-      "'theme [name]'",
-      "Change terminal theme (e.g., theme matrix)"
-    ]
+  commands: [
+    ["'about'", "Who made this website?"],
+    ["'projects'", "Maybe there's something interesting."],
+    ["'whoami'", "A perplexing question."],
+    ["'sudo'", "???"],
+    ["'repo'", "View the Github Repository."],
+    ["'banner'", "Display the banner."],
+    ["'clear'", "Clear the terminal."],
+    ["'fortune'", "Get your daily fortune."],
+    ["'matrix'", "Enter the Matrix..."],
+    ["'joke'", "Get a programming joke."],
+    ["'ascii-art'", "Display some ASCII art."],
+    ["'cowsay [text]'", "A talking cow!"],
+    ["'sl'", "Steam Locomotive!"],
+    ["'glitch [text]'", "Apply glitch effect to text"],
+    ["'npm'", "Simulate npm package installation"],
+    ["'info [zh/en]'", "Know more about me!"],
+    ["'theme [name]'", "Change terminal theme (e.g., theme matrix)"],
   ],
-}
+};
 
 const createHelp = () : string[] => {
   const help : string[] = []

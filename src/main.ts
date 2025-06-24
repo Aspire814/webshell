@@ -186,7 +186,8 @@ function commandHandler(input : string) {
       writeLines(["<span class='warning'>No info in the dark.</span>", "<br>"])
       return;
     }
-    writeLines(info());
+    const lang = input.split(" ")[1];
+    writeLines(info(lang));
     return;
   }
 
